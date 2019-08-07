@@ -2,7 +2,7 @@
 layout:     post
 title:      CSAPP大作业
 subtitle:   hello world 的一生
-date:       2019-1-1
+date:       2018-10-01
 author:     Raymond
 header-img: img/home-bg-o.jpg
 catalog: true
@@ -10,12 +10,6 @@ tags:
     - Blog
 
 ---
-
-
-
-
-
-
 
 
 ## 目  录
@@ -88,7 +82,7 @@ tags:
 #### 1.2 环境与工具
 硬件信息：Intel Core i7-77000HQ, 8GRAM, 256GSSD
 软件信息：VMware WorkStation 14  Ubuntu 18.04.1 LTS
-使用工具：edb ,gdb ,Objdump ,readelf,gcc,ld 
+使用工具：edb ,gdb ,Objdump ,readelf,gcc,ld
 #### 1.3 中间结果
 hello.c：源程序文件
 hello.i：预处理后的文本文件
@@ -132,7 +126,7 @@ gcc的-E选项，可以让编译器在预处理后停止，并输出预处理结
 # 第3章 编译
 ##  3.1 编译的概念与作用
 
-#### 1.	概念 
+#### 1.	概念
 编译器把文本文件（hello.i）翻译成 包含汇编语言程序的文本文件(hello.s)
 #### 2.	作用     
 把高级的c语言代码翻译成为了低级的机器语言指令。
@@ -167,7 +161,7 @@ gcc的-E选项，可以让编译器在预处理后停止，并输出预处理结
 赋值指令的实现通过的就是条件传送指令mov. mov a b 的效果就是把a的值给b,其中movb,movw,movl,movq分别是传送1，2，4，8个字节
 #### 3.3.4 加法
 加法的实现利用的是add指令。 add a b 的意思是 b = b+a,即为加法运算。
-其中addb,addw,addl,addq分别为字节，字，双字和四字的加法。 
+其中addb,addw,addl,addq分别为字节，字，双字和四字的加法。
 #### 3.3.5 小于
 小于的实现利用的是cmp，cmp S1 S2 执行 S2 – S1,如果结果为0，设置ZF 0标志条件码寄存器中的值为1，如果结果为负数，设置SF负数条件码寄存器为1.如原程序中要比较i<10,就利用cmp 9 i,如果SF为1，则小于
 #### 3.3.6 函数中参数传递
@@ -338,7 +332,7 @@ objdump -d -r hello.o  分析hello.o的反汇编，并请与第3章的 hello.s�
 
 
 （图4-12 汇编代码与机器代码不同3）
-第三个不同则是函数调用，函数参数传递时，根据我们上一节知道的，printf的格式串存放在.rodata，根据后面的.rodata_0x0查询重定位节，如下图，根据偏移确定重定位符号的位置 
+第三个不同则是函数调用，函数参数传递时，根据我们上一节知道的，printf的格式串存放在.rodata，根据后面的.rodata_0x0查询重定位节，如下图，根据偏移确定重定位符号的位置
  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20181229010517209.png)
 （图4-13 ）
 就是图中地址0x16位置，我们可以看到，从0x16到0x1a被空了出来，这时给链接时需要放入的值把位置腾出来，这里先不解释怎么操作，在链接的时候会详细介绍。
@@ -472,7 +466,7 @@ objdump -d -r hello 分析hello与hello.o的不同，说明链接的过程。
 （图7-19 dl_init后的got.plt节）
 这里GOT[2]变为0x7f169ad84750,找到这个地址，对应的是一个叫dl_runtime_resolve的函数，所有动态库函数在第一次调用时，都是通过XXX@plt -> 公共@plt -> _dl_runtime_resolve调用关系做地址解析和重定位的。
  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20181229011316391.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mjk3MDQ1Ng==,size_16,color_FFFFFF,t_70)
-（图 7-20 dl_runtime_resolve函数 ） 
+（图 7-20 dl_runtime_resolve函数 ）
 GOT[1]变为0x7f169af96170,如图5-21黄色部分，对应一个重定位表。
  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20181229011338646.png)
 
@@ -607,13 +601,13 @@ PTBR是cpu里的一个控制寄存器，指向当前页表，n位的虚拟地址
  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20181229012244460.png)
 （图7-10 利用物理地址确定cache中位置）
 根据高速缓存的大小，我们把物理地址分割成这些部分，其中S = 2^s,B = 2^b,剩下的t位都是标记位，得到一个物理地址后，通过组索引部分可以确定在cache里的哪一组，通过标记位确定看是否与组里的某一行标记相同，如果有，通过块偏移位确定具体是哪个数据块，从而得到我们的数据。如果没有找到，则需要从内存里去数据，并找到cache里的一行替换，对于L1,L2这样的组相联cache，替换策略通常有LFU(最不常使用)，LRU(最近最少使用)。
-## 7.6 hello进程fork时的内存映射 
+## 7.6 hello进程fork时的内存映射
 Linux通过将一个虚拟内存区域与一个磁盘上的对象关联起来，以初始化这个虚拟内存区域，这个过程称为内存映射。
 我们知道Linux为每个进程维护了一个单独的虚拟地址空间，通过图   的数据结构来包含每个进程的信息
  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20181229012253380.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mjk3MDQ1Ng==,size_16,color_FFFFFF,t_70)
 （7-11 每个进程虚拟内存的数据结构）
 当我们的hello程序被fork后，内存为我们的hello创建如图7-11的数据结构，并分配给一个唯一的PID,为了给我们的新进程hello创建虚拟内存，它创建了当前进程mm_struct,区域结构和页表的原样副本，将两个进程的每个页面标记为只读，并将两个进程中的每个区域结构都标记为写时复制。当fork在新进程里返回时，新进程现在的虚拟内存刚好和调用fork时相同。
-## 7.7 hello进程execve时的内存映射 
+## 7.7 hello进程execve时的内存映射
 当我们用./hello运行可执行文件hello时，先fork创建虚拟内存区域，当这个区域和父进程还是完全一样的，然后会调用execve(“hello”,NULL,NULL),加载并运行可执行文件hello,用hello程序有效替换了当前程序，加载并运行hello的步骤如下：
 1）	删除已存在的用户区域
 2）	映射私有区域（为hello程序的代码，数据，bss,栈区域创建新的区域结构），都是私有，写时复制的
@@ -784,7 +778,7 @@ write函数从内存位置buf复制至多n个字节到描述符fd的当前文件
 38.	    }   
 39.	     
 40.	    return (p - buf);   
-41.	   } 
+41.	   }
 42.	  
 ```
 vsprintf返回一个长度，就是我们的字符串长度。Vsprintf的作用就是格式化，它接收确定输出格式的格式字符串fmt,用格式字符串读个数变化的参数进行格式化，产生格式化输出。
@@ -795,7 +789,7 @@ vsprintf返回一个长度，就是我们的字符串长度。Vsprintf的作用�
 44.	     mov eax, _NR_write   
 45.	     mov ebx, [esp + 4]   
 46.	     mov ecx, [esp + 8]   
-47.	     int INT_VECTOR_SYS_CALL 
+47.	     int INT_VECTOR_SYS_CALL
 ```
 这个地方int要调用中断门来实现特定的系统服务。我们可以找到INT_VECTOR_SYS_CALL的实现：
 init_idt_desc(INT_VECTOR_SYS_CALL,DA_386IGate,sys_call,PRIVILEGE_USER)
@@ -866,8 +860,8 @@ hello：链接后的可执行文件
 
 参考文献
 为完成本次大作业你翻阅的书籍与网站等
-[1] Linux GCC 常用命令 
-https://www.cnblogs.com/ggjucheng/archive/2011/12/14/2287738.html 
+[1] Linux GCC 常用命令
+https://www.cnblogs.com/ggjucheng/archive/2011/12/14/2287738.html
 [2]  ELF中与动态链接相关的段
 https://blog.csdn.net/virtual_func/article/details/48792087
 [3]  linux bash总结
