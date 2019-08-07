@@ -1,6 +1,15 @@
-​                    
+---
+layout:     post
+title:      CSAPP大作业
+subtitle:   hello world 的一生
+date:       2019-1-1
+author:     Raymond
+header-img: img/home-bg-o.jpg
+catalog: true
+tags:
+    - Blog
 
-
+---
 
 
 
